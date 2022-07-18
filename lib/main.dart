@@ -14,7 +14,11 @@ void main() {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const HomePage(),
+      home: const LoginView(),
+      routes: {
+        '/login/': (context) => const LoginView(),
+        '/register/': (context) => const RegisterView(),
+      },
     ),
   );
 }
@@ -37,16 +41,13 @@ class HomePage extends StatelessWidget {
             case ConnectionState.done:
               final user = FirebaseAuth.instance.currentUser;
               if (user?.emailVerified ?? false) {
+                return const Text('Done');
                 print('verified user');
               } else {
                 print('please verify your email ');
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: ((context) => VerifyEmailView()),
-                  ),
-                );
+                return VerifyEmailView();
               }
-              return const Text('Done');
+
             default:
               return const Text('Loading ');
           }
@@ -61,6 +62,17 @@ class VerifyEmailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Column(
+      children: [
+        Text('please verify'),
+        TextButton(
+          onPressed: () async {
+            final user = FirebaseAuth.instance.currentUser;
+            await user?.sendEmailVerification();
+          },
+          child: const Text('Send mail'),
+        )
+      ],
+    );
   }
 }
