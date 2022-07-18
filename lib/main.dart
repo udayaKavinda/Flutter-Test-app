@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home1'),
+        title: const Text('Home2'),
       ),
       body: FutureBuilder(
         future: Firebase.initializeApp(
@@ -40,6 +40,11 @@ class HomePage extends StatelessWidget {
                 print('verified user');
               } else {
                 print('please verify your email ');
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: ((context) => VerifyEmailView()),
+                  ),
+                );
               }
               return const Text('Done');
             default:
@@ -48,5 +53,14 @@ class HomePage extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class VerifyEmailView extends StatelessWidget {
+  const VerifyEmailView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
   }
 }
