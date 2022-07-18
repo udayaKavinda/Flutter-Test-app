@@ -44,6 +44,15 @@ class _LoginViewState extends State<LoginView> {
             case ConnectionState.done:
               return Column(
                 children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/register/',
+                        (route) => false,
+                      );
+                    },
+                    child: const Text('go to register'),
+                  ),
                   TextField(
                     controller: email,
                     enableSuggestions: false,
@@ -64,6 +73,8 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   TextButton(
                     onPressed: () async {
+                      final user = FirebaseAuth.instance.currentUser;
+                      print(user);
                       final aemail = email.text;
                       final apassword = password.text;
 
